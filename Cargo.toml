@@ -1,0 +1,12 @@
+[package]
+name = "kd_tree"
+version = "0.1.0"
+authors = ["mittsuyama <1462973856@qq.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+kd-tree = "0.3.0"
+typenum = "1.13.0"
+indicatif = "0.15.0"
