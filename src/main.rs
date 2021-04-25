@@ -31,6 +31,9 @@ fn check_position(lng: f64, lat: f64) -> bool {
     }
 }
 
+const LNG_TO_METER: f64 = 85390.0;
+const LAT_TO_METER: f64 = 111000.0;
+
 fn main() {
     println!("reading poi file...");
 
@@ -51,7 +54,7 @@ fn main() {
                 }
                 poi_list.push(Poi {
                     id: count,
-                    point: [lng, lat],
+                    point: [(lng - 126.0) * LNG_TO_METER, (lat - 45.0) * LAT_TO_METER],
                 });
         }
     }
@@ -75,20 +78,41 @@ fn main() {
                 }
                 cell_list.push(Cell {
                     id: split_reuslt[14].to_owned(),
-                    point: [lng, lat],
+                    point: [(lng - 126.0) * LNG_TO_METER, (lat - 45.0) * LAT_TO_METER],
                 });
             }
     }
     let bar = ProgressBar::new(cell_list.len() as u64);
     bar.set_style(ProgressStyle::default_bar()
         .template("[{elapsed_precise}] {bar:60.cyan/blue} {pos:>7}/{len:7} {msg}")
-        .progress_chars("##-"));
+        .progress_chars("#>-"));
 
     println!("getting latest poi...");
     let mut out_file = fs::File::create("data/nearst.txt").unwrap();
-    for cell in cell_list {
-        let poi_id = &tree.nearest(&cell.point).unwrap().item.id;
+    let mut average = 0.0;
+    let mut max = 0.0;
+    let mut min = std::f64::MAX;
+    for cell in &cell_list {
+        let result = tree.nearest(&cell.point).unwrap();
+        let poi_id = result.item.id;
+        let dis = result.squared_distance;
+
+        if dis > 100000.0 {
+            println!("cell: {}, {}", cell.point[0], cell.point[1]);
+            println!("poi: {}, {}", result.item.point[0], result.item.point[1]);
+        }
+
+        average += dis / cell_list.len() as f64;
+        max = if max > dis { max } else { dis };
+        min = if min > dis { dis } else { min };
+
         out_file.write(format!("{},{}\n", cell.id, poi_id).as_ref()).unwrap();
         bar.inc(1);
     }
+
+    println!("average: {}", average);
+    println!("min: {}", min);
+    println!("max: {}", max);
+
+    println!("finished successfully");
 }
