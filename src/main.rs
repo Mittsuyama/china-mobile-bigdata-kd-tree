@@ -95,12 +95,7 @@ fn main() {
     for cell in &cell_list {
         let result = tree.nearest(&cell.point).unwrap();
         let poi_id = result.item.id;
-        let dis = result.squared_distance;
-
-        if dis > 100000.0 {
-            println!("cell: {}, {}", cell.point[0], cell.point[1]);
-            println!("poi: {}, {}", result.item.point[0], result.item.point[1]);
-        }
+        let dis = result.squared_distance.sqrt();
 
         average += dis / cell_list.len() as f64;
         max = if max > dis { max } else { dis };
