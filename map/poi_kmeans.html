@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, user-scalable=no, width=device-width"
+    />
+    <title>哈尔滨市城市功能区划分</title>
+    <style>
+      html,
+      body,
+      #container {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"
+    />
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=e1b511d57a8a01e26d8d7695696bbdd7"></script>
+    <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+    <script src="../data/keams_result.txt"></script>
+  </head>
+  <body>
+    <div id="container"></div>
+
+    <script>
+      var map = new AMap.Map("container", {
+        center: [126.65, 45.75],
+        zoom: 14,
+      });
+
+      const LNG_LAT_MULTI = 0.5;
+
+      data.forEach((item) => {
+        const [lng, lat, t] = item;
+        const southWest = new AMap.LngLat(
+          lng - 0.001 * LNG_LAT_MULTI,
+          lat - 0.001 * LNG_LAT_MULTI
+        );
+        const northEast = new AMap.LngLat(
+          lng + 0.001 * LNG_LAT_MULTI,
+          lat + 0.001 * LNG_LAT_MULTI
+        );
+        const bounds = new AMap.Bounds(southWest, northEast);
+
+        colors = [
+          "#FF0000", // 0: 红
+          "#9D845F", // 1: 土黄
+          "#FF7700", // 2: 橙
+          "#FFFF00", // 3: 黄
+          "#00FF00", // 4: 亮绿
+          "#416B41", // 5: 深绿
+          "#00FFFF", // 6: 亮蓝绿
+          "#0077FF", // 7: 湖蓝
+          "#0000FF", // 8: 深蓝
+          "#7700FF", // 9: 紫蓝
+          "#FF00FF", // 10: 紫红
+          "#000000", // 11: 黑
+        ];
+
+        const rectangle = new AMap.Rectangle({
+          bounds: bounds,
+          strokeColor: "black",
+          strokeOpacity: 0.6,
+          fillColor: colors[t],
+          fillOpacity: 0.6,
+          zIndex: 50,
+        });
+        rectangle.setMap(map);
+      });
+
+      // 缩放地图到合适的视野级别
+      map.setFitView([rectangle]);
+    </script>
+  </body>
+</html>

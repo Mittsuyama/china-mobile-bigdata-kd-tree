@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, user-scalable=no, width=device-width"
+    />
+    <title>热力图</title>
+    <link
+      rel="stylesheet"
+      href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"
+    />
+    <style>
+      html,
+      body,
+      #container {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=e1b511d57a8a01e26d8d7695696bbdd7"></script>
+    <script src="../data/heat_data.js"></script>
+
+    <script>
+      var map = new AMap.Map("container", {
+        resizeEnable: true,
+        center: [126.65, 45.75],
+        zoom: 12,
+      });
+
+      var heatmap;
+      map.plugin(["AMap.HeatMap"], function () {
+        heatmap = new AMap.HeatMap(map, {
+          radius: 25, //给定半径
+          opacity: [0, 0.8],
+        });
+
+        heatmap.setDataSet({
+          data: poi_list,
+          max: 100,
+        });
+      });
+    </script>
+  </body>
+</html>
