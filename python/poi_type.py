@@ -6,13 +6,11 @@ DECIMAL_COUNT = 2
 RATE = pow(10, 2)
 PRECISION = 1
 type_to_number = {
+    "公司企业": 0,          # 公司企业
+
     "金融保险服务": 1,       # 金融
 
     "购物服务": 2,          # 商品交易和售后
-    "汽车服务": 2,
-    "汽车维修": 2,
-    "汽车销售": 2,
-    "摩托车服务": 2,
 
     "风景名胜": 3,          # 景区
 
@@ -38,10 +36,13 @@ type_to_number = {
 
     "生活服务": 10,          # 生活
 
-    "公司企业": 0,          # 公司企业
+    "汽车服务": 11,          # 燃油车服务
+    "汽车维修": 11,
+    "汽车销售": 11,
+    "摩托车服务": 11,
 }
 distribution = {}
-POI_TYPE_COUNT = 11
+POI_TYPE_COUNT = 12
 count = [0] * POI_TYPE_COUNT
 second_type = set()
 

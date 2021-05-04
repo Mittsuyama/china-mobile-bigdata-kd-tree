@@ -37,6 +37,10 @@
 
       data.forEach((item) => {
         const [lng, lat, t] = item;
+        if (lng < 126.1 || lat > 45.78) {
+          return;
+        }
+
         const southWest = new AMap.LngLat(
           lng - 0.001 * LNG_LAT_MULTI,
           lat - 0.001 * LNG_LAT_MULTI

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # init & const var
 DRAW_INERTIA = 0
-N_CLUSTERS = 10
+N_CLUSTERS = 11
 lng_lat = []
 data = []
 lines = open("../data/poi_type.txt", "r").readlines()
@@ -50,7 +50,11 @@ print("running k-means...")
 est = KMeans(n_clusters=N_CLUSTERS, init="k-means++")
 result = est.fit_predict(np.array(data))
 
-## print output
+# std out
+for item in est.cluster_centers_:
+    print(item)
+
+# print output
 out_file = open("../data/keams_result.txt", "w")
 csv_file = open("../data/keams_result.csv", "w")
 
